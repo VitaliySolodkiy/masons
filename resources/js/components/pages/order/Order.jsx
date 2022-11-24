@@ -3,7 +3,6 @@ import MiniCart from '../cart/MiniCart';
 import { Button, Form, Input } from 'antd';
 import CartContext from '../../../contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
-import 'antd/dist/antd.css';
 
 const Order = () => {
     const { cartItems, clearCart } = useContext(CartContext);

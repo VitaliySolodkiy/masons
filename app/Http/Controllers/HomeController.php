@@ -22,7 +22,7 @@ class HomeController extends Controller
         $products = Product::where('category_id', $category->id)->get();
 
         return response()->json([
-            'category' => $category->name,
+            'category' => $category,
             'products' => $products,
         ], 200);
     }

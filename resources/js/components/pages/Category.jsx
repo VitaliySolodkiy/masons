@@ -1,9 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+import ProductCard from './elements/ProductCard';
 
 const Category = () => {
     const { id } = useParams();
@@ -18,6 +16,7 @@ const Category = () => {
     const getCategoryPageData = async () => {
         await axios.get(`/api/category/${id}`)
             .then(({ data }) => {
+                console.log(data)
                 setCategory(data.category);
                 setProducts(data.products);
             })
@@ -25,26 +24,20 @@ const Category = () => {
 
     const productsMaps = (product) => {
         return (
-            <Card style={{ width: '18rem' }} key={product.id}>
-                <Link to={`/product/${product.id}`}>
-                    <Card.Img variant="top" src={product.image} />
-                    <Card.Body>
-                        <Card.Title>{product.name}</Card.Title>
-                        <Card.Text>
-                            {product.price}$
-                        </Card.Text>
-                        <Button variant="warning">GO</Button>
-                    </Card.Body>
-                </Link>
-            </Card >
+            <div className="category-list-item">
+                <ProductCard product={product} />
+            </div>
         )
     }
 
     return (
-        <div className='container'>
-            <h2 className='my-3'>{category}</h2>
-            <div className="product_list">
-                {products.map(productsMaps)}
+        <div className="category">
+            <div className="category__container _container">
+                <h3>{category.name}</h3>
+                <h5>{category.description}</h5>
+                <div className="category__list">
+                    {products.map(productsMaps)}
+                </div>
             </div>
         </div>
     );

@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import 'antd/dist/antd.css';
 import { Button, Form, Input } from 'antd';
 import { useNavigate } from "react-router-dom";
 import AuthUserContext from '../../contexts/AuthUserContext';

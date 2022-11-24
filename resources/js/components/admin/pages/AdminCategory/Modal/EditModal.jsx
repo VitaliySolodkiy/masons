@@ -1,6 +1,5 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
-import 'antd/dist/antd.css';
 import { Button as BtnAntd } from 'antd';
 import { Form, Input } from 'antd';
 
