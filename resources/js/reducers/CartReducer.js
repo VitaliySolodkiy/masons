@@ -3,7 +3,7 @@ const CartReducer = (state, action) => {
     switch (action.type) {
 
         case 'addProduct':
-            const findProduct = state.cart.find(item => item.id === action.product.id);
+            const findProduct = state.cart.find(item => item.id === action.product.id); //добавить проверку в т.ч. по размеру и цвету
             if (findProduct) {
                 findProduct.amount += Number(action.product.amount);
                 const products = state.cart.filter(item => item.id !== findProduct.id);
@@ -29,7 +29,7 @@ const CartReducer = (state, action) => {
             return {
                 cart: state.cart.map(item => {
                     if (item.id === action.id) {
-                        item.amount += 1;
+                        item.properties.amount += 1;
                         return item;
                     }
                     return item;
@@ -40,7 +40,7 @@ const CartReducer = (state, action) => {
             return {
                 cart: state.cart.map(item => {
                     if (item.id === action.id) {
-                        item.amount > 1 ? item.amount -= 1 : '';
+                        item.properties.amount > 1 ? item.properties.amount -= 1 : '';
                         return item;
                     }
                     return item;

@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ColorController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SizeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +32,15 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 });
 
 //определяем маршрут
+
+//resourse
+Route::resource('categories', CategoryController::class);
+Route::resource('products', ProductController::class);
+Route::resource('orders', OrderController::class);
+Route::resource('colors', ColorController::class);
+Route::resource('sizes', SizeController::class);
+//other
+
 Route::get('/home', [HomeController::class, 'index']);
 Route::get('/home-latest', [HomeController::class, 'latestProducts']);
 Route::get('/category/{category}', [HomeController::class, 'category']);
@@ -40,10 +51,8 @@ Route::post('/order', [OrderController::class, 'placeOrder']);
 Route::post('login', [LoginController::class, 'authentificate']);
 Route::post('registration', [LoginController::class, 'registration']);
 
-Route::resource('categories', CategoryController::class);
-Route::resource('products', ProductController::class);
+
 Route::post('products/{id}', [ProductController::class, 'update']);
-Route::resource('orders', OrderController::class);
 Route::get('order-details/{id}', [OrderController::class, 'orderDetails']);
 Route::post('order-products-update', [OrderController::class, 'updateOrderProducts']);
 Route::get('search', [HomeController::class, 'search']);

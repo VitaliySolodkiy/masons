@@ -30,13 +30,16 @@ const AdminProduct = () => {
     }
 
     const editProduct = async (id, values) => {
+
         const { data } = await axios.post('/api/products/' + id, values, {
             headers: {
                 "Content-Type": "multipart/form-data"
             }
         });
+        console.log("data in AdminProduct: ", data);
         const updatedProducts = _.cloneDeep(products);
         const product = updatedProducts.find(p => p.id === id);
+        console.log("product in AdminProduct: ", product);
         /*         product.name = data.data.name;
                 product.description = data.data.description;
                 product.price = data.data.price;
@@ -45,6 +48,7 @@ const AdminProduct = () => {
 
         _.assign(product, data.data)
         setProducts(updatedProducts);
+        console.log("updatedProducts in AdminProduct: ", updatedProducts);
     }
 
 

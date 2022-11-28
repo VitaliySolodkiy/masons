@@ -8,7 +8,6 @@ const Edit = ({ isEditModalOpen, setIsEditModalOpen, editedProduct, editProduct 
         setIsEditModalOpen(false);
     };
 
-
     return (
         <div>
             <Modal title="Edit Product"

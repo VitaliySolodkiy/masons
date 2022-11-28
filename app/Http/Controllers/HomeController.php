@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Color;
 use App\Models\Product;
+use App\Models\ProductColors;
+use App\Models\ProductSizes;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -27,8 +30,9 @@ class HomeController extends Controller
         ], 200);
     }
 
-    public function product(Product $product)
+    public function product($id)
     {
+        $product = Product::with('productColors', 'productSizes')->where("id", $id)->first();
         return response()->json([
             'product' => $product,
         ], 200);

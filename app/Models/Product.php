@@ -34,4 +34,24 @@ class Product extends Model
     {
         return $this->hasMany(Gallery::class);
     }
+
+    public function color()
+    {
+        return $this->hasMany(Color::class);
+    }
+
+    public function productColors()
+    {
+        return $this->hasMany(ProductColors::class);
+    }
+
+    public function size()
+    {
+        return $this->hasMany(Sizes::class);
+    }
+
+    public function productSizes()
+    {
+        return $this->hasMany(ProductSizes::class);
+    }
 }

@@ -3,6 +3,7 @@ import CartContext from '../../../contexts/CartContext';
 
 const Cart = () => {
     const { cartItems, removeCartItem, incrementProduct, decrementProduct } = useContext(CartContext);
+    console.log(cartItems)
     return (
         <div>
             {cartItems.map(item => (
@@ -12,10 +13,10 @@ const Cart = () => {
                     </div>
                     <div>{item.name}</div>
                     <div className='controls dec' onClick={() => decrementProduct(item.id)}>–</div>
-                    <div>{item.amount}</div>
+                    <div>{item.properties.amount}</div>
                     <div className='controls inc' onClick={() => incrementProduct(item.id)}>+</div>
 
-                    <div>{item.price * item.amount}</div>
+                    <div>{item.price * item.properties.amount}</div>
                     <div ><a onClick={() => removeCartItem(item.id)}> <img src="../icons/delete-32.png" alt="" style={{ width: "24px" }} /> </a></div>
                 </div>
             ))}

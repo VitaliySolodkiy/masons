@@ -26,7 +26,7 @@ const Header = () => {
     }
 
 
-    const totalSum = () => cartItems.reduce((sum, item) => sum + item.price * item.amount, 0);
+    const totalSum = () => cartItems.reduce((sum, item) => sum + item.price * item.properties.amount, 0);
     const isCartEmpty = () => cartItems.length === 0 ? true : false;
 
     const cartFooter = (isCartEmpty) => {
