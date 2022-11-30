@@ -7,17 +7,19 @@ const Cart = () => {
     return (
         <div>
             {cartItems.map(item => (
-                <div key={item.id} className="cart-item" >
-                    <div>
+                <div key={item.id + item.properties.size + item.properties.color} className="cart-item" >
+                    <div className="cart-item__image" >
                         <img src={item.image} alt={item.image} />
                     </div>
-                    <div>{item.name}</div>
-                    <div className='controls dec' onClick={() => decrementProduct(item.id)}>–</div>
+                    <div className="cart-item__name">{item.name}</div>
+                    {item.properties.color.length > 0 && <div>Color: {item.properties.color}</div>}
+                    {item.properties.size.length > 0 && <div>Size: {item.properties.size}</div>}
+                    <div className='controls dec' onClick={() => decrementProduct(item)}>–</div>
                     <div>{item.properties.amount}</div>
-                    <div className='controls inc' onClick={() => incrementProduct(item.id)}>+</div>
+                    <div className='controls inc' onClick={() => incrementProduct(item)}>+</div>
 
                     <div>{item.price * item.properties.amount}</div>
-                    <div ><a onClick={() => removeCartItem(item.id)}> <img src="../icons/delete-32.png" alt="" style={{ width: "24px" }} /> </a></div>
+                    <div ><a onClick={() => removeCartItem(item)}> <img src="../icons/delete-32.png" alt="" style={{ width: "24px" }} /> </a></div>
                 </div>
             ))}
         </div>

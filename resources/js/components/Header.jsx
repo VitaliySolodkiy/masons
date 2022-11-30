@@ -63,7 +63,11 @@ const Header = () => {
                             <ul>
                                 <li><button onClick={modalShow}><img src="../icons/cart.svg" alt="" />{!isCartEmpty() ? <small>{cartItems.length}</small> : ''}</button></li>
                                 <li><a href=""><img src="../icons/favorites.svg" alt="" /></a></li>
-                                <li><Link to={"/admin"}><img src="../icons/user.png" alt="" /></Link></li>
+                                <li className='user-panel-dropdown'><Link to={"/admin"}><img src="../icons/user.png" alt="" /></Link>
+                                    <ul className='user-panel-dropdown-menu'>
+                                        <UserMenu />
+                                    </ul>
+                                </li>
                             </ul>
                         </div>
                         <div className="header-menu">

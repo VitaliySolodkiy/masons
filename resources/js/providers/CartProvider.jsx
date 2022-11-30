@@ -24,14 +24,14 @@ const CartProvider = ({ children }) => { /* сюда принимаем комп
         addCartItem: (product) => {
             dispatch({ type: "addProduct", product });
         },
-        removeCartItem: (id) => {
-            dispatch({ type: "removeProduct", id });
+        removeCartItem: (product) => {
+            dispatch({ type: "removeProduct", product });
         },
-        incrementProduct: (id) => {
-            dispatch({ type: "incrementProduct", id });
+        incrementProduct: (product) => {
+            dispatch({ type: "incrementProduct", product });
         },
-        decrementProduct: (id) => {
-            dispatch({ type: "decrementProduct", id });
+        decrementProduct: (product) => {
+            dispatch({ type: "decrementProduct", product });
         },
         clearCart: () => {
             dispatch({ type: "clearCart" });

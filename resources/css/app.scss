@@ -103,12 +103,27 @@ img{
 }
 
 .cart-item{
-    display: grid;
-    grid-template-columns: 50px 1fr 10px 20px 10px 70px 50px;
-    gap:10px;
+    display: flex;
     align-items: center;
-    justify-items: center;
+    justify-content: center;
     margin-bottom: 20px;
+    div{
+        margin-right: 20px;
+        &:last-child{
+            margin-right: 0;
+        }
+    }
+    &__image{
+        img{
+            height: 50px;
+            width: 50px;
+            object-fit: contain;
+        }
+    }
+    &__name{
+        flex: 1 1 auto;
+        justify-content: center;
+    }
     .controls{
         font-size: 20px;
         font-weight: 700;
@@ -116,10 +131,10 @@ img{
         user-select: none;
     }
     .inc{
-color: rgb(69, 133, 228);
+        color: rgb(69, 133, 228);
     }
     .dec{
-color: rgb(63, 63, 63);
+        color: rgb(63, 63, 63);
     }
 }
 
@@ -251,4 +266,9 @@ color: rgb(63, 63, 63);
         }
     }
 }
+
+.modal-dialog{
+    max-width: 700px;
+}
+
 @import "masons.scss";

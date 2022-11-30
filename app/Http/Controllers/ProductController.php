@@ -58,23 +58,28 @@ class ProductController extends Controller
         $product->category = $product->category;
         $product->image = $product->image; //когда создали товар и сохранили его, у нас нет картинки и данные возвращаются без изображения. Свойство со значением undefined в JSON не преобразовывается. Мы тут явно говорим что у продукта явно будет свойство image. при обращении к свойству image у модели отрабатывает геттер ($product->image), который проверяет есть ли в базе данных путь к картине, если есть - возвращается путь, если нет - возвращается картинка заглушка. 
 
-        foreach ($request->product_colors as $color) {
-            $encodedColor = json_decode($color);
-            $productColor = new ProductColors();
-            $productColor->color_name = $encodedColor->name;
-            $productColor->color_id = $encodedColor->id;
-            $productColor->product_id = $product->id;
-            $productColor->save();
+        if ($request->product_colors) {
+            foreach ($request->product_colors as $color) {
+                $encodedColor = json_decode($color);
+                $productColor = new ProductColors();
+                $productColor->color_name = $encodedColor->color_name;
+                $productColor->color_id = $encodedColor->color_id;
+                $productColor->product_id = $product->id;
+                $productColor->save();
+            }
         }
 
-        foreach ($request->product_sizes as $size) {
-            $encodedSize = json_decode($size);
-            $productSize = new ProductSizes();
-            $productSize->size_name = $encodedSize->name;
-            $productSize->size_id = $encodedSize->id;
-            $productSize->product_id = $product->id;
-            $productSize->save();
+        if ($request->product_sizes) {
+            foreach ($request->product_sizes as $size) {
+                $encodedSize = json_decode($size);
+                $productSize = new ProductSizes();
+                $productSize->size_name = $encodedSize->size_name;
+                $productSize->size_id = $encodedSize->size_id;
+                $productSize->product_id = $product->id;
+                $productSize->save();
+            }
         }
+
 
         return response()->json([
             'success' => true,
@@ -135,6 +140,7 @@ class ProductController extends Controller
 
         $product->category = $product->category;
 
+        //ниже заменить на sync()
         $oldColors = ProductColors::where("product_id", $id)->get();
         foreach ($oldColors as $oldColor) {
             $productColor = ProductColors::findOrFail($oldColor->id);

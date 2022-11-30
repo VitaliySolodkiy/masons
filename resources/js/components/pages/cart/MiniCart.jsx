@@ -7,13 +7,13 @@ const MiniCart = () => {
     return (
         <div>
             {cartItems.map(item => (
-                <div key={item.id} className="mini-cart-item" >
+                <div key={item.id + item.properties.size + item.properties.color} className="mini-cart-item" >
                     <div>
                         <img src={item.image} alt={item.image} />
                     </div>
                     <div>{item.name}</div>
-                    <div>{item.amount}</div>
-                    <div>{item.price * item.amount}</div>
+                    <div>{item.properties.amount}</div>
+                    <div>{item.price * item.properties.amount}</div>
 
                 </div>
             ))}

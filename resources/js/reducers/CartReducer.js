@@ -3,10 +3,15 @@ const CartReducer = (state, action) => {
     switch (action.type) {
 
         case 'addProduct':
-            const findProduct = state.cart.find(item => item.id === action.product.id); //добавить проверку в т.ч. по размеру и цвету
+            const findProduct = state.cart.find(item => item.id === action.product.id && item.properties.size === action.product.properties.size && item.properties.color === action.product.properties.color); //добавить проверку в т.ч. по размеру и цвету
+            //state.cart - то что находится в корзине
+            //action - то что приходит в корзину
+            console.log("action.product: ", action.product)
             if (findProduct) {
-                findProduct.amount += Number(action.product.amount);
-                const products = state.cart.filter(item => item.id !== findProduct.id);
+                console.log("find product: ", findProduct)
+                findProduct.properties.amount += Number(action.product.properties.amount);
+                const products = state.cart.filter(item => { return ((item.properties.size !== findProduct.properties.size) || (item.properties.color !== findProduct.properties.color) || (item.id !== findProduct.id)) });
+                console.log('products: ', products)
                 return {
                     cart: [
                         ...products,
@@ -14,21 +19,23 @@ const CartReducer = (state, action) => {
                     ]
                 }
             }
+            const newCartProduct = _.cloneDeep(action.product);
             return {
                 cart: [
                     ...state.cart,
-                    action.product
+                    newCartProduct
                 ]
 
             }
         case 'removeProduct':
-            return { cart: state.cart.filter(item => item.id !== action.id) };
+            return { cart: state.cart.filter(item => (item.properties.size !== action.product.properties.size) || (item.properties.color !== action.product.properties.color) || (item.id !== action.product.id)) };
 
         case 'incrementProduct':
             //здесь лучше делать дип клон через lodash и потом работать с ним. после изменения вовращать его в свойство cart
+            console.log("increment in cart")
             return {
                 cart: state.cart.map(item => {
-                    if (item.id === action.id) {
+                    if (item.id === action.product.id && item.properties.size === action.product.properties.size && item.properties.color === action.product.properties.color) {
                         item.properties.amount += 1;
                         return item;
                     }
@@ -39,7 +46,7 @@ const CartReducer = (state, action) => {
         case 'decrementProduct':
             return {
                 cart: state.cart.map(item => {
-                    if (item.id === action.id) {
+                    if (item.id === action.product.id && item.properties.size === action.product.properties.size && item.properties.color === action.product.properties.color) {
                         item.properties.amount > 1 ? item.properties.amount -= 1 : '';
                         return item;
                     }

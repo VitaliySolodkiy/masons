@@ -16,24 +16,22 @@ const UserMenu = () => {
 
     const component = () => {
         if (authUser) {
-            return (<li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    {authUser.name}
-                </a>
-                <ul className="dropdown-menu dropdown-right">
-                    <li><Link className="dropdown-item" to="/admin">Admin</Link></li>
-                    <li><a className="dropdown-item" onClick={logoutHandler}>Logout</a></li>
-                </ul>
-            </li>)
+            return (
+                <>
+                    <li /* className="user-panel-dropdown-menu-item" */> Hi, {authUser.name}</li>
+                    <li ><Link to="/admin">Admin</Link></li>
+                    <li><a onClick={logoutHandler}>Logout</a></li>
+                </>
+            )
         }
 
         return (
             <>
-                <li className="nav-item">
-                    <Link className="nav-link" to="/login">Login</Link>
+                <li>
+                    <Link to="/login">Login</Link>
                 </li>
-                <li className="nav-item">
-                    <Link className="nav-link" to="/registration">Registration</Link>
+                <li >
+                    <Link to="/registration">Registration</Link>
                 </li>
             </>
         );

@@ -1,16 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 import CartContext from '../../contexts/CartContext';
-import { CompassOutlined } from '@ant-design/icons';
 
 const Product = () => {
 
     const { id } = useParams();
     const [product, setProduct] = useState({});
-    const [amount, setAmount] = useState(1);
     const [properties, setProperties] = useState({});
     const { addCartItem, modalShow } = useContext(CartContext);
 
@@ -29,8 +24,18 @@ const Product = () => {
                     color: (data.product.product_colors.length !== 0 ? data.product.product_colors[0].color_name : []),
                 });
             });
+    }
 
+    const decrementProduct = () => {
+        if (properties.amount === 1) return;
+        let newAmount = properties.amount - 1
+        setProperties({ ...properties, amount: newAmount })
+    }
 
+    const incrementProduct = () => {
+        console.log('increment in product')
+        let newAmount = properties.amount + 1
+        setProperties({ ...properties, amount: newAmount })
     }
 
     return (
@@ -41,10 +46,10 @@ const Product = () => {
                     <div className="product__info">
                         <h2 className='product__title'>{product.name}</h2>
                         <p className='product__price'>{product.price} UAH</p>
-                        <div className="product__properties">
+                        <div className="product-properties">
                             {(!product.product_sizes || product.product_sizes?.length === 0)
                                 ? ''
-                                : <>
+                                : <div className="product-properties__item">
                                     <span>Size:</span>
                                     <select
                                         name="size"
@@ -53,12 +58,12 @@ const Product = () => {
                                     >
                                         {product.product_sizes && product.product_sizes.map(size => <option value={size.size_name} key={size.id}>{size.size_name}</option>)}
                                     </select>
-                                </>
+                                </div>
                             }
 
                             {(!product.product_colors || product.product_colors?.length === 0)
                                 ? ''
-                                : <>
+                                : <div className="product-properties__item">
                                     <span>Color:</span>
                                     <select
                                         name="color"
@@ -67,24 +72,22 @@ const Product = () => {
                                     >
                                         {product.product_colors && product.product_colors.map(color => <option value={color.color_name} key={color.id}>{color.color_name}</option>)}
                                     </select>
-                                </>
+                                </div>
                             }
-
-
+                            <div className="product-properties__item product-properties__item-amount">
+                                <span>Amount:</span>
+                                <div className="product-properties__item-amount-controls">
+                                    <div className='controls dec' onClick={() => decrementProduct()}>–</div>
+                                    <div className='amount'>{properties.amount}</div>
+                                    <div className='controls inc' onClick={() => incrementProduct()}>+</div>
+                                </div>
+                            </div>
                         </div>
-                        <InputGroup className="my-3">
-                            <InputGroup.Text id="basic-addon1">{product.price}$</InputGroup.Text>
-                            <Form.Control
-                                type="number"
-                                name="amount"
-                                value={properties.amount}
-                                min="1"
-                                onChange={({ target }) => setProperties({ ...properties, amount: target.value })}
-                            />
-                            <Button variant="warning" id="button-addon2" onClick={() => { addCartItem({ ...product, properties }); modalShow() }}>
-                                Add to cart
-                            </Button>
-                        </InputGroup>
+                        <div className="product-buy">
+                            <button className='buy' onClick={() => { addCartItem({ ...product, properties }); modalShow() }}>Buy</button>
+                            <button className='favorites'><img src="../icons/fav.png" alt="" /></button>
+                        </div>
+
                     </div>
 
                 </div>
