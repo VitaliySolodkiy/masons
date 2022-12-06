@@ -316,9 +316,9 @@ const Home = () => {
                     <h5>Then watch this video and you will understand</h5>
                     <div className="video__body">
                         <iframe width="915" height="514" src="https://www.youtube.com/embed/BHACKCNDMW8"
-                            title="YouTube video player" frameborder="0"
+                            title="YouTube video player" frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen></iframe>
+                            allowFullScreen></iframe>
                     </div>
                 </div>
             </div>

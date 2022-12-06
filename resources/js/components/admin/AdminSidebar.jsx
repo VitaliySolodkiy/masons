@@ -10,6 +10,7 @@ const AdminSidebar = () => {
                 <Link to={`/admin/categories`} className="list-group-item list-group-item-action" >Categories</Link>
                 <Link to={`/admin/products`} className="list-group-item list-group-item-action" >Products</Link>
                 <Link to={`/admin/orders`} className="list-group-item list-group-item-action" >Orders</Link>
+                <Link to={`/admin/reviews`} className="list-group-item list-group-item-action" >Reviews</Link>
 
             </div >
             {/* <a href="/">Back to site</a> */}

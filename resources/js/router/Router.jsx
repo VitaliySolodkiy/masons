@@ -17,6 +17,7 @@ import AdminProduct from '../components/admin/pages/AdminProduct/AdminProduct';
 import AdminOrder from '../components/admin/pages/AdminOrder/AdminOrder'
 import AdminOrderDetails from '../components/admin/pages/AdminOrder/AdminOrderDetails';
 import SearchResult from '../components/pages/SearchResult';
+import AdminReview from '../components/admin/pages/AdminReview/AdminReview';
 
 const Router = () => {
     const [authUser] = useContext(AuthUserContext);
@@ -30,6 +31,7 @@ const Router = () => {
                 <Route path="products" element={<AdminProduct />} />
                 <Route path="orders" element={<AdminOrder />} />
                 <Route path="orders/:id" element={<AdminOrderDetails />} />
+                <Route path="reviews" element={<AdminReview />} />
             </Route>
         );
 
@@ -38,7 +40,7 @@ const Router = () => {
         <Routes>
             <Route path="/" element={<FrontEnd />} >
                 <Route path="/" element={<Home />} />
-                <Route path="/category/:id" element={<Category />} />
+                <Route path="/category/:id/*" element={<Category />} />
                 <Route path="/product/:id" element={<Product />} />
                 <Route path="/order" element={<Order />} />
                 <Route path="/order-thank" element={<OrderThank />} />

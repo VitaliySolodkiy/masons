@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
+
     return (
         <div className="top-sales-card product-card">
             <Link to={`/product/${product.id}`}>
@@ -9,8 +10,8 @@ const ProductCard = ({ product }) => {
                 <div className="product-card__title">{product.name}</div>
                 <div className="product-card__price">{product.price}₴</div>
             </Link>
-        </div>
+        </div >
     );
 }
-
+//to={`/product/${product.id}`}
 export default ProductCard;

@@ -67,8 +67,8 @@ const FormProduct = ({ handleCancel, addProduct, editedProduct, editProduct }) =
     };
     const initialValues = {}
     console.log("editedProduct in FormProduct: ", editedProduct)
+
     const submitHandler = async (values) => {
-        console.log(values)
         const { data } = await axios.post('/api/products', values, {
             headers: {
                 "Content-Type": "multipart/form-data"

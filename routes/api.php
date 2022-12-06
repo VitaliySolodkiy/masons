@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SizeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,7 @@ Route::resource('products', ProductController::class);
 Route::resource('orders', OrderController::class);
 Route::resource('colors', ColorController::class);
 Route::resource('sizes', SizeController::class);
+Route::resource('reviews', ReviewController::class);
 //other
 
 Route::get('/home', [HomeController::class, 'index']);

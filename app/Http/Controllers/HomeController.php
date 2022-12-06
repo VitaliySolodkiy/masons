@@ -32,7 +32,7 @@ class HomeController extends Controller
 
     public function product($id)
     {
-        $product = Product::with('productColors', 'productSizes')->where("id", $id)->first();
+        $product = Product::with('productColors', 'productSizes', 'review')->where("id", $id)->first();
         return response()->json([
             'product' => $product,
         ], 200);

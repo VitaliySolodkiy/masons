@@ -54,4 +54,10 @@ class Product extends Model
     {
         return $this->hasMany(ProductSizes::class);
     }
+
+    public function review()
+    {
+
+        return $this->hasMany(Review::class)->latest();
+    }
 }

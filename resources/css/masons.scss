@@ -141,7 +141,7 @@ flex-wrap: wrap;
         display: none;
         position: absolute;
         top:101%;
-        right:0%;
+        right:-100%;
         // min-width: 200px;
         background-color: #343434;
         border: 0.5px solid #fff;
@@ -151,6 +151,7 @@ flex-wrap: wrap;
         li{
             width: 100%;
             padding: 10px 10px;
+            
             &:first-child{
                 border-bottom: 1px solid #fff;
             }
@@ -565,6 +566,7 @@ min-height: 600px;
         line-height: 24px;
         margin-bottom: 5px;
     }
+    
     &__price {
         font-weight: 700;
         font-size: 24px;
@@ -1018,6 +1020,16 @@ h6{
         margin-bottom: 35px;
     }
 
+    &__rating{
+        margin-bottom: 35px;
+        img{
+            margin-right: 5px;
+            &:last-child{
+                margin-right: 0;
+            }
+        }
+    }
+
     &__price{
         font-weight: 600;
         font-size: 48px;
@@ -1032,14 +1044,15 @@ h6{
         line-height: 29px;
         color: #A5A5A5;
         margin-bottom: 130px;
-        h4{
+        
+    }
+    h4{
             font-weight: 700;
             font-size: 36px;
             line-height: 44px;
             margin-bottom: 35px;
             color: #F0F0F0;
         }
-    }
 }
 
 .product-properties {
@@ -1052,30 +1065,43 @@ h6{
         font-weight: 400;
         font-size: 16px;
         line-height: 19px;
-        
         span{
             margin-right: 20px;
         }
-        
-        select{
-            padding: 3px 20px;
+    }
+    &__item-select{
+        display: inline-block;
+        transform: skew(-20deg, 0deg);
+        padding: 3px 20px;
             background-color: #FFC700;
             margin-right: 10px;
             font-weight: 400;
             font-size: 16px;
             line-height: 20px;
             color:#000;
+        select{
+            transform: skew(20deg, 0deg);
+            background-color: #FFC700;
+                &:focus-visible{
+                outline: none;
         }
+        }
+
     }
 
     &__item-amount{
         display: flex;
         align-items: center;
     }
+    &__item-amount-controls-wrapper{
+        transform: skew(-20deg, 0deg);
+        background-color: #FFC700;
+    }
     &__item-amount-controls{
+        transform: skew(20deg, 0deg);
         display: flex;
         align-items: center;
-        background-color: #FFC700;
+        padding: 0px 5px;
         font-weight: 400;
         font-size: 16px;
         line-height: 20px;
@@ -1100,13 +1126,90 @@ align-items: center;
         font-weight: 700;
         font-size: 18px;
         line-height: 22px;
-        color: #FFC700;
-        text-transform: uppercase;
-        padding: 20px 60px;
-        border: 2px solid #FFC700;
-        margin-right: 30px;
     }
     .favorites {
     }   
+}
+
+.product-btn{
+    color: #FFC700;
+    text-transform: uppercase;
+    padding: 20px 60px;
+    border: 2px solid #FFC700;
+    margin-right: 30px;
+    &:hover{
+        color:#000;
+        background-color: #FFC700;
+        border: 2px solid #fff;
+    }
+}
+
+.product-reviews {
+
+    &__main {
+        display: flex;
+        align-items: center;
+        margin-bottom: 42px;
+        h4{
+            margin-bottom: 0;
+            margin-right: 32px;
+        }
+    }
+
+    &__btn {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 19px;
+    }
+
+    &__user-reviews {
+    }
+}
+
+.user-review {
+    display: flex;
+    margin-bottom: 114px;
+
+    &__avatar {
+        flex: 0 0 80px;
+        margin-right: 14px;
+        
+        img{
+            border-radius: 50%;
+        }
+    }
+
+    &__body {
+    }
+
+    &__main-info {
+        padding: 12px;
+        margin-bottom: 32px;
+    }
+
+    &__user-name {
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 29px;
+        margin-bottom: 7px;
+    }
+
+    &__rating {
+        img{
+            width: 25px;
+            height: 25px;
+            margin-right: 10px;
+            &:last-child{
+                margin-right: 0;
+            }
+        }
+    }
+
+    &__content {
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 24px;
+        color: #A5A5A5;
+    }
 }
 

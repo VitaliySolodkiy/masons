@@ -1,11 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams, createSearchParams } from 'react-router-dom';
+
 import ProductCard from './elements/ProductCard';
 import ReactPaginate from 'react-paginate';
 
 const CategoryPagination = () => {
     const { id } = useParams();
+    let [searchParams, setSearchParams] = useSearchParams({});
 
     const [category, setCategory] = useState('');
     const [products, setProducts] = useState([]);
@@ -16,29 +18,65 @@ const CategoryPagination = () => {
     const endOffset = itemOffset + itemsPerPage;
     const pageCount = Math.ceil(products.length / itemsPerPage);
 
+    const sortParam = searchParams.get('sort') || 'newest';
+    const itemsPerPageParam = searchParams.get('itemsPerPage');
+    const currentPageStartParam = searchParams.get('currentStart');
+    const currentPageEndParam = searchParams.get('currentEnd');
+    const initialPage = +currentPageStartParam > 0 ? (+currentPageStartParam) / itemsPerPage : 0;
     useEffect(() => {
         let newCurrent = products.slice(itemOffset, endOffset);
         setCurrentItems(newCurrent);
+
+        //создаем searchParams  и записываем их
+        searchParams.set("currentStart", itemOffset);
+        searchParams.set("currentEnd", endOffset);
+        setSearchParams(searchParams);
+        //====
+
     }, [products, itemOffset, itemsPerPage]);
+
 
     useEffect(() => {
         getCategoryPageData();
+
+        if (currentPageStartParam) {
+            setItemOffset(+currentPageStartParam);
+        }
+        if (itemsPerPageParam) {
+            setItemsPerPage(+itemsPerPageParam);
+        }
+
     }, [id]);
 
+
     const sortProducts = (value) => {
+
         switch (value) {
             case 'price-low-hight':
-                setProducts([...products].sort((a, b) => a.price > b.price ? 1 : a.price < b.price ? -1 : 0));
+                setProducts((oldProducts) => [...oldProducts].sort((a, b) => a.price > b.price ? 1 : a.price < b.price ? -1 : 0));
+                console.log("set search param: ", value);
+                // setSearchParams({ ...searchParams, sort: value });
+                searchParams.set("sort", value);
                 break;
+
             case 'price-hight-low':
-                setProducts([...products].sort((a, b) => a.price > b.price ? -1 : a.price < b.price ? 1 : 0));
+                setProducts((oldProducts) => [...oldProducts].sort((a, b) => a.price > b.price ? -1 : a.price < b.price ? 1 : 0));
+                console.log("set search param: ", value);
+                searchParams.set("sort", value);
                 break;
+
             case 'oldest':
-                setProducts([...products].sort((a, b) => Date.parse(a.created_at) > Date.parse(b.created_at) ? 1 : Date.parse(a.created_at) < Date.parse(b.created_at) ? -1 : 0));
+                setProducts((oldProducts) => [...oldProducts].sort((a, b) => Date.parse(a.created_at) > Date.parse(b.created_at) ? 1 : Date.parse(a.created_at) < Date.parse(b.created_at) ? -1 : 0));
+                console.log("set search param: ", value);
+                searchParams.set("sort", value);
                 break;
+
             case 'newest':
-                setProducts([...products].sort((a, b) => Date.parse(a.created_at) > Date.parse(b.created_at) ? -1 : Date.parse(a.created_at) < Date.parse(b.created_at) ? 1 : 0));
+                setProducts((oldProducts) => [...oldProducts].sort((a, b) => Date.parse(a.created_at) > Date.parse(b.created_at) ? -1 : Date.parse(a.created_at) < Date.parse(b.created_at) ? 1 : 0));
+                console.log("set search param: ", value);
+                searchParams.set("sort", value);
                 break;
+
             default: console.log('default');
         }
     }
@@ -49,7 +87,9 @@ const CategoryPagination = () => {
                 setCategory(data.category);
                 setProducts(data.products);
             })
+        sortProducts(sortParam);
     }
+
 
     const Items = ({ currentItems }) => {
         return (
@@ -84,7 +124,7 @@ const CategoryPagination = () => {
                                 <select
                                     name="sort"
                                     id="sort"
-                                    defaultValue="oldest"
+                                    defaultValue={sortParam}
                                     onChange={(e) => sortProducts(e.target.value)}
                                 >
                                     <option value="oldest">Oldest</option>
@@ -100,8 +140,11 @@ const CategoryPagination = () => {
 
                                     name="itemsPerPage"
                                     id="itemsPerPage"
-                                    defaultValue={8}
-                                    onChange={(e) => setItemsPerPage(+e.target.value)}
+                                    defaultValue={itemsPerPageParam ? itemsPerPageParam : "8"}
+                                    onChange={(e) => {
+                                        setItemsPerPage(+e.target.value);
+                                        searchParams.set('itemsPerPage', +e.target.value);
+                                    }}
                                 >
                                     <option value="4">4</option>
                                     <option value="8">8</option>
@@ -123,6 +166,7 @@ const CategoryPagination = () => {
                             onPageChange={handlePageClick}
                             pageRangeDisplayed={5}
                             pageCount={pageCount}
+                            forcePage={initialPage}
                             previousLabel="< "
                             renderOnZeroPageCount={null}
                             containerClassName={'pagination'}
