@@ -35,7 +35,7 @@ class LoginController extends Controller
 
     public function registration(Request $request)
     {
-
+        // dd($request->all());
         $rules = [
             'name' => 'required',
             'email' => 'required|unique:users',
@@ -52,6 +52,8 @@ class LoginController extends Controller
         User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->phone,
+            'city' => $request->city,
             'password' => Hash::make($request->password),
         ]);
 

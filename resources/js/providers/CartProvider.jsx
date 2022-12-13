@@ -33,6 +33,9 @@ const CartProvider = ({ children }) => { /* сюда принимаем комп
         decrementProduct: (product) => {
             dispatch({ type: "decrementProduct", product });
         },
+        changeProperty: (product, property, propertyValue) => {
+            dispatch({ type: "changeProperty", product, property, propertyValue });
+        },
         clearCart: () => {
             dispatch({ type: "clearCart" });
         },

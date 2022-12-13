@@ -1,16 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+// import Button from 'react-bootstrap/Button';
+// import Modal from 'react-bootstrap/Modal';
+import { Modal, Button } from 'antd';
 import CartContext from '../contexts/CartContext';
 import FavoritesContext from '../contexts/FavoritesContext';
-import Cart from "./pages/cart/Cart";
+import ModalCart from "./pages/cart/ModalCart";
 import { Link } from "react-router-dom";
 import AuthUserContext from '../contexts/AuthUserContext';
 import UserMenu from './UserMenu';
 import Search from './Search';
 import Favorites from './pages/favorites/Favorites';
 
-const Header = () => {
+
+const Header = (props) => {
     const { cartItems, modalClose, modalShow, showModalState } = useContext(CartContext);
     const { favoriteItems, modalFavoriteClose, modalFavoriteShow, showFavoriteModalState } = useContext(FavoritesContext);
     const [categories, setCategories] = useState([]);
@@ -18,6 +20,7 @@ const Header = () => {
 
     useEffect(() => {
         getHeaderData();
+
     }, []);
 
     const getHeaderData = async () => {
@@ -35,17 +38,15 @@ const Header = () => {
 
     const cartFooter = (isCartEmpty) => {
         if (isCartEmpty) {
-            return (<p>Cart empty. You can go to <Link to="/" onClick={modalClose}>
-                catalog
-            </Link> and select products to buy</p>)
+            return (<p>Cart empty. You can go to <Link to={'/'} state={{ scrollToCatalog: true }} onClick={modalClose}> catalog</Link> and select products to buy</p>)
         }
         else {
-            return (<>
+            return (<div className='cart-item__footer'>
                 <p>Total: {totalSum()}</p>
-                <Link to="/order" className='btn btn-primary' onClick={modalClose}>
-                    Place Order
-                </Link>
-            </>)
+                <Button>
+                    <Link to="/order" onClick={modalClose}> Place Order</Link>
+                </Button>
+            </div>)
         }
     }
 
@@ -67,7 +68,7 @@ const Header = () => {
                             <ul>
                                 <li><button onClick={modalShow}><img src="../icons/cart.svg" alt="" />{!isCartEmpty() ? <small>{cartItems.length}</small> : ''}</button></li>
                                 <li><button onClick={modalFavoriteShow}><img src="../icons/favorites.svg" alt="" />{!isFavoriteEmpty() ? <small>{favoriteItems.length}</small> : ''}</button></li>
-                                <li className='user-panel-dropdown'><Link to={"/admin"}><img src="../icons/user.png" alt="" /></Link>
+                                <li className='user-panel-dropdown'><img src="../icons/user.png" alt="" />{/* <Link to={"/admin"}><img src="../icons/user.png" alt="" /></Link> */}
                                     <ul className='user-panel-dropdown-menu'>
                                         <UserMenu />
                                     </ul>
@@ -76,7 +77,7 @@ const Header = () => {
                         </div>
                         <div className="header-menu">
                             <ul className="header-menu__main-list">
-                                <li className='header-menu__item header-menu__dropdown' ><a href="#" title="Catalog">Catalog</a>
+                                <li className='header-menu__item header-menu__dropdown' ><Link to={'/'} state={{ scrollToCatalog: true }}>Catalog</Link>
                                     <ul className='header-menu__dropdown-menu'>
                                         {categories.map((category) => {
                                             return <li key={category.id} className="header-menu__dropdown-menu-item">
@@ -97,29 +98,46 @@ const Header = () => {
 
                 </div>
 
-                <Modal show={showModalState} onHide={modalClose}>
+                {/*                 <Modal show={showModalState} onHide={modalClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Cart</Modal.Title>
                     </Modal.Header>
                     {!isCartEmpty()
                         ? <Modal.Body>
-                            <Cart />
+                            <ModalCart />
                         </Modal.Body>
                         : ''}
 
                     <Modal.Footer>
                         {cartFooter(isCartEmpty())}
                     </Modal.Footer>
+                </Modal> */}
+
+                <Modal
+                    open={showModalState}
+                    title="Cart"
+                    onOk={modalClose}
+                    onCancel={modalClose}
+                    footer={null}
+                    width={700}
+                >
+                    {!isCartEmpty()
+                        ?
+                        <ModalCart />
+
+                        : ''}
+                    {cartFooter(isCartEmpty())}
                 </Modal>
 
 
-                <Modal show={showFavoriteModalState} onHide={modalFavoriteClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Favorites</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Favorites />
-                    </Modal.Body>
+                <Modal
+                    title="Favorites"
+                    open={showFavoriteModalState}
+                    onCancel={modalFavoriteClose}
+                    onOk={modalFavoriteClose}
+                    footer={null}
+                    width={700}>
+                    <Favorites />
                 </Modal>
             </header>
         </>

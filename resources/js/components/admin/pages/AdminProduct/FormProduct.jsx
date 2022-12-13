@@ -109,6 +109,7 @@ const FormProduct = ({ handleCancel, addProduct, editedProduct, editProduct }) =
                 handleCancel();
             }}
             form={form}
+            hideRequiredMark={true}
         >
             <Form.Item
                 label="Name"

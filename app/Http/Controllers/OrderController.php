@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\OrderShipped;
 use App\Models\Order;
 use App\Models\OrderItems;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -18,14 +19,19 @@ class OrderController extends Controller
 
     function placeOrder(Request $request)
     {
-        // dd($request->all());
+        // dd($request->cartItems);
 
         $order = new Order();
-        $order->user_email = $request->formValues['email'];
-        $order->user_phone = $request->formValues['phone'];
-        $order->total_sum = array_reduce($request->cartItems, function ($carry, $item) {
+        $order->user_name = $request->formValues['user_name'];
+        $order->user_email = $request->formValues['user_email'];
+        $order->user_phone = $request->formValues['user_phone'];
+        $order->user_city = $request->formValues['user_city'];
+        $order->post_office = $request->formValues['post_office'];
+        $order->delivery_method = $request->formValues['delivery_method'];
+        $order->payment_method = $request->formValues['payment_method'];
+        /*         $order->total_sum = array_reduce($request->cartItems, function ($carry, $item) {
             return $carry += $item['price'] * $item['amount'];
-        });
+        }); */
         $order->save();
 
         foreach ($request->cartItems as $item) {
@@ -34,7 +40,9 @@ class OrderController extends Controller
             $orderItem->product_id = $item['id'];
             $orderItem->product_name = $item['name'];
             $orderItem->product_price = $item['price'];
-            $orderItem->product_amount = $item['amount'];
+            $orderItem->product_amount = $item['properties']['amount'];
+            $orderItem->product_size = $item['properties']['size'];
+            $orderItem->product_color = $item['properties']['color'];
             $orderItem->save();
         };
 
@@ -95,5 +103,19 @@ class OrderController extends Controller
         return response()->json([
             'message' => 'Order deleted successfully!'
         ]);
+    }
+    public function userOrders($email)
+    {
+        // dd($email);
+        $userOrders = Order::with('orderProducts')->where('user_email', $email)->get();
+        return response()->json($userOrders);
+    }
+    public function userLastOrderProducts($email)
+    {
+        $lastOrder = Order::with('orderProducts')->where('user_email', $email)->orderBy('created_at', 'desc')->first();
+        foreach ($lastOrder->orderProducts as $order_product) {
+            $products[] = Product::where('id', $order_product->product_id)->first();
+        }
+        return response()->json($products);
     }
 }

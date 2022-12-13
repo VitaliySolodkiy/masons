@@ -18,6 +18,9 @@ import AdminOrder from '../components/admin/pages/AdminOrder/AdminOrder'
 import AdminOrderDetails from '../components/admin/pages/AdminOrder/AdminOrderDetails';
 import SearchResult from '../components/pages/SearchResult';
 import AdminReview from '../components/admin/pages/AdminReview/AdminReview';
+import Profile from '../components/pages/Profile';
+import OrderHistory from '../components/pages/order/OrderHistory/OrderHistory';
+import OrderHistoryDetails from '../components/pages/order/OrderHistory/OrderHistoryDetails';
 
 const Router = () => {
     const [authUser] = useContext(AuthUserContext);
@@ -35,6 +38,16 @@ const Router = () => {
             </Route>
         );
 
+    const userRoutes = () =>
+        !authUser?.role ? (
+            ''
+        ) : (
+            <>
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/order-history" element={<OrderHistory />} />
+                <Route path="/order-history/:id" element={<OrderHistoryDetails />} />
+            </>
+        );
 
     return (
         <Routes>
@@ -47,6 +60,7 @@ const Router = () => {
                 <Route path="/login" element={<Login />} />
                 <Route path="/registration" element={<Registration />} />
                 <Route path="/search" element={<SearchResult />} />
+                {userRoutes()}
             </Route>
             {adminRoutes()}
             <Route path="*" element={<NotFound />} />

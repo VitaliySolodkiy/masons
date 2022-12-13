@@ -27,8 +27,8 @@ const Product = () => {
                 setProduct(data.product);
                 setProperties({
                     amount: 1,
-                    size: (data.product.product_sizes.length !== 0 ? data.product.product_sizes[0].size_name : []),
-                    color: (data.product.product_colors.length !== 0 ? data.product.product_colors[0].color_name : []),
+                    size: (data.product.product_sizes.length !== 0 ? data.product.product_sizes[0].size_name : ""),
+                    color: (data.product.product_colors.length !== 0 ? data.product.product_colors[0].color_name : ""),
                 });
             });
 

@@ -3,6 +3,7 @@ import { Button, Form, Input } from 'antd';
 import { useNavigate } from "react-router-dom";
 import AuthUserContext from '../../contexts/AuthUserContext';
 import { useState } from 'react';
+import { Link } from "react-router-dom";
 
 const Login = () => {
     const [authUser, setAuthUser] = useContext(AuthUserContext);
@@ -23,23 +24,33 @@ const Login = () => {
     }
 
     return (
-        <div className="container ">
-            <h2 className="my-3">Login</h2>
-            <p style={{ color: 'red' }}>{error}</p>
-            <Form name="login" onFinish={submitHandler} className="w-50">
-                <Form.Item label="Email" name="email" rules={[{ required: true }, { email: true }]}>
-                    <Input />
-                </Form.Item>
+        <>
+            <div className="login">
+                <div className="login__container _container">
+                    <div className="login__container-background"></div>
+                    <div className="login__title"><h5>Sign in</h5></div>
+                    <div className="login__registration-link"><Link to={'/registration'}>I don't have an account yet</Link></div>
 
-                <Form.Item label="Password" name="password" rules={[{ required: true }]}>
-                    <Input.Password />
-                </Form.Item>
+                    <div className="login-form">
+                        <p style={{ color: 'red' }}>{error}</p>
+                        <Form name="login" onFinish={submitHandler} >
+                            <Form.Item name="email" rules={[{ required: true }, { email: true }]}>
+                                <Input placeholder="Email" />
+                            </Form.Item>
 
-                <Form.Item >
-                    <Button htmlType="submit" type="primary">Log in</Button>
-                </Form.Item>
-            </Form>
-        </div>
+                            <Form.Item name="password" rules={[{ required: true }]}>
+                                <Input.Password placeholder="Password" />
+                            </Form.Item>
+
+                            <Form.Item className='login-form__button-wrapper'>
+                                <Button htmlType="submit" type="primary">Log in</Button>
+                            </Form.Item>
+                        </Form>
+                    </div>
+                </div>
+            </div>
+        </>
+
     );
 }
 

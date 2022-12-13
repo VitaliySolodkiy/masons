@@ -47,14 +47,15 @@ Route::get('/home', [HomeController::class, 'index']);
 Route::get('/home-latest', [HomeController::class, 'latestProducts']);
 Route::get('/category/{category}', [HomeController::class, 'category']);
 Route::get('/product/{product}', [HomeController::class, 'product']);
-
-Route::post('/order', [OrderController::class, 'placeOrder']);
+Route::get('search', [HomeController::class, 'search']);
 
 Route::post('login', [LoginController::class, 'authentificate']);
 Route::post('registration', [LoginController::class, 'registration']);
 
-
 Route::post('products/{id}', [ProductController::class, 'update']);
+
+Route::post('/order', [OrderController::class, 'placeOrder']);
 Route::get('order-details/{id}', [OrderController::class, 'orderDetails']);
 Route::post('order-products-update', [OrderController::class, 'updateOrderProducts']);
-Route::get('search', [HomeController::class, 'search']);
+Route::get('user-orders/{email}', [OrderController::class, 'userOrders']);
+Route::get('user-last-order-products/{email}', [OrderController::class, 'userLastOrderProducts']);

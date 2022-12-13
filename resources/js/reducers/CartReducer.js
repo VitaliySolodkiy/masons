@@ -6,12 +6,12 @@ const CartReducer = (state, action) => {
             const findProduct = state.cart.find(item => item.id === action.product.id && item.properties.size === action.product.properties.size && item.properties.color === action.product.properties.color); //добавить проверку в т.ч. по размеру и цвету
             //state.cart - то что находится в корзине
             //action - то что приходит в корзину
-            console.log("action.product: ", action.product)
+
             if (findProduct) {
-                console.log("find product: ", findProduct)
+
                 findProduct.properties.amount += Number(action.product.properties.amount);
                 const products = state.cart.filter(item => { return ((item.properties.size !== findProduct.properties.size) || (item.properties.color !== findProduct.properties.color) || (item.id !== findProduct.id)) });
-                console.log('products: ', products)
+
                 return {
                     cart: [
                         ...products,
@@ -32,7 +32,7 @@ const CartReducer = (state, action) => {
 
         case 'incrementProduct':
             //здесь лучше делать дип клон через lodash и потом работать с ним. после изменения вовращать его в свойство cart
-            console.log("increment in cart")
+
             return {
                 cart: state.cart.map(item => {
                     if (item.id === action.product.id && item.properties.size === action.product.properties.size && item.properties.color === action.product.properties.color) {
@@ -52,6 +52,18 @@ const CartReducer = (state, action) => {
                     }
                     return item;
                 })
+            }
+        case 'changeProperty':
+            // console.log("product: ", action.product, "property: ", action.property, "propertyValue: ", action.propertyValue);
+            const productToChange = state.cart.find(item => item.id === action.product.id && item.properties.size === action.product.properties.size && item.properties.color === action.product.properties.color); //добавить проверку в т.ч. по размеру и цвету
+            console.log("productToChange before: ", productToChange);
+            productToChange.properties[`${action.property}`] = action.propertyValue;
+            console.log("productToChange: ", productToChange);
+            return {
+                cart: [
+                    ...state.cart
+                ]
+
             }
         case 'clearCart':
             return { cart: [] };

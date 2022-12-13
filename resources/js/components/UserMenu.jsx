@@ -19,7 +19,10 @@ const UserMenu = () => {
             return (
                 <>
                     <li /* className="user-panel-dropdown-menu-item" */> Hi, {authUser.name}</li>
-                    <li ><Link to="/admin">Admin</Link></li>
+                    {authUser.role === 'admin'
+                        ? <li ><Link to="/admin">Admin</Link></li>
+                        : ""}
+                    <li ><Link to="/profile">Profile</Link></li>
                     <li><a onClick={logoutHandler}>Logout</a></li>
                 </>
             )

@@ -1,18 +1,24 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import { useLocation } from "react-router";
 
 const Home = () => {
 
     const [latestProducts, setLatestPropucts] = useState([]);
+    const navigate = useNavigate();
+    const catalogRef = useRef(null); //создание реферальной ссылки. Далее ее как пропс "ref={catalogRef}" цепляем к нужному элементу на странице и используем для прокуртки к нему. 
+    let location = useLocation(); //хук чтобы принять props "state" из компонента Link (в данном случае пропс передается в Favorites.jsx)
+
 
     useEffect(() => {
         getHomePageData();
+        if (location.state?.scrollToCatalog) scrollToTarget(catalogRef); //проверяем был ли передан пропс "state" и его свойство "scrollToCatalog". Если да - скролим до нужного элемента на странице
     }, []);
 
     const getHomePageData = async () => {
@@ -20,6 +26,14 @@ const Home = () => {
             .then(({ data }) => {
                 setLatestPropucts(data.latestProducts);
             })
+    }
+
+    const scrollToTarget = (element) => {
+        setTimeout(() => {
+            element.current.scrollIntoView({
+                behavior: 'smooth'
+            })
+        }, 500);
     }
 
     const productsMaps = (product) => {
@@ -50,7 +64,7 @@ const Home = () => {
                     <div className="masons-text">
                         <div className="masons-text__title">masons<br /><span>branding</span><br />wordshop</div>
                         <div className="masons-text__sub-title">High quality printing <span>Branding</span> of clothing and accessories</div>
-                        <button className="masons-text__button">Catalog</button>
+                        <button className="masons-text__button" onClick={() => scrollToTarget(catalogRef)}>Catalog</button>
                     </div>
                 </div>
             </div>
@@ -177,6 +191,7 @@ const Home = () => {
                             </div>
                         </SplideSlide>
                         <SplideSlide className='discounts-body'>
+
                             <div className="discounts-body__text">
                                 <div className="discounts-body__title">Russian ship</div>
                                 <div className="discounts-body__description">Buy a T-shirt and 10% of each purchase will go to the needs of the Armed Forces of Ukraine, buy a stylish T-shirt and support your rother at the front</div>
@@ -254,26 +269,32 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className="catalog">
+            <div className="catalog" ref={catalogRef}>
                 <div className="catalog__container _container">
                     <h2>Cata<span>log</span></h2>
                     <h5>Choose whatever you like</h5>
                     <div className="catalog__body">
-                        <div className="catalog-item">
+
+                        <div className="catalog-item" onClick={() => navigate("/category/1")}>
                             <div className="catalog-item__image"><img src="../images/plain-white-tshirt.png" alt="" /></div>
                             <div className="catalog-item__title">T-shirt</div>
                             <div className="catalog-item__sub-title">Eco materials</div>
                         </div>
-                        <div className="catalog-item">
+
+
+                        <div className="catalog-item" onClick={() => navigate("/category/2")}>
                             <div className="catalog-item__image"><img src="../images/sweetshot.png" alt="" /></div>
                             <div className="catalog-item__title">Hoody</div>
                             <div className="catalog-item__sub-title">Eco materials</div>
                         </div>
-                        <div className="catalog-item">
-                            <div className="catalog-item__image"><img src="../images/plain-white-tshirt.png" alt="" /></div>
+
+
+                        <div className="catalog-item" onClick={() => navigate("/category/3")}>
+                            <div className="catalog-item__image"><img src="../images/TTr91mT2TcFQ4vzn5f6CnFUtajmeNmUc8ui7Z6Ct.jpg" alt="" /></div>
                             <div className="catalog-item__title">Cups</div>
                             <div className="catalog-item__sub-title">Best materials</div>
                         </div>
+
                     </div>
                 </div>
             </div>

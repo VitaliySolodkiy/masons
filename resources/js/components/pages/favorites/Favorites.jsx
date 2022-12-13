@@ -7,15 +7,17 @@ const Favorites = () => {
     console.log(favoriteItems)
     return (
         <div>
-            {favoriteItems.map(item => (
-                <div key={item.id + item.properties.size + item.properties.color} className="cart-item" >
-                    <div className="cart-item__image" >
-                        <img src={item.image} alt={item.image} />
+            {favoriteItems.length === 0
+                ? <p>Favorites list empty. See the <Link to={'/'} state={{ scrollToCatalog: true }} onClick={modalFavoriteClose}> catalog</Link> to add new favorite items.</p>
+                : favoriteItems.map(item => (
+                    <div key={item.id + item.properties.size + item.properties.color} className="cart-item" >
+                        <div className="cart-item__image" >
+                            <img src={item.image} alt={item.image} />
+                        </div>
+                        <div className="cart-item__name"><Link to={`/product/${item.id}`} title={item.name} onClick={modalFavoriteClose} >{item.name}</Link></div>
+                        <div ><button className='delete-btn delete-btn-modal' onClick={() => removeFavoriteItem(item)}> <img src="../icons/delete.png" alt="" /> </button></div>
                     </div>
-                    <div className="cart-item__name"><Link to={`/product/${item.id}`} title={item.name} onClick={modalFavoriteClose} >{item.name}</Link></div>
-                    <div ><a onClick={() => removeFavoriteItem(item)}> <img src="../icons/delete-32.png" alt="" style={{ width: "24px" }} /> </a></div>
-                </div>
-            ))}
+                ))}
         </div>
     );
 }

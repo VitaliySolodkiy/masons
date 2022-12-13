@@ -121,7 +121,7 @@ const ProductReviews = ({ product, filledStarPath, unFilledStarPath, ratingMaxim
                             </Form.Item>
 
                             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                                <Button onClick={handleCancel}>Cancel</Button>
+                                <Button onClick={handleCancel} className="ant-btn-mr-30">Cancel</Button>
                                 <Button htmlType="submit">
                                     Save
                                 </Button>

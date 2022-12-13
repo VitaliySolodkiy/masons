@@ -15,7 +15,7 @@ const Add = ({ addReview }) => {
     };
     return (
         <>
-            <Button type="primary" onClick={showModal}>
+            <Button type="primary" className='mb-3' onClick={showModal}>
                 Add Review
             </Button>
             <Modal title="Add Review"

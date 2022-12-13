@@ -19,14 +19,22 @@
 
 .main-block-admin{
     flex-direction: row;
-    background-color: #fff;
-    color:#000;
+    // background-color: #fff;
+    // color:#000;
     a{
-        color:#000;
+        color: #fff;
     }
     h2{
-        font-size: 36px;
+        font-size: 24px;
         line-height: 48px;
+    }
+    .list-group-item{
+        background-color: #343434;
+        color: #fff;
+    }
+    .list-group-item-action:focus, .list-group-item-action:hover {
+        background-color: #ffc107;
+        color:#000;
     }
 }
 
@@ -78,10 +86,7 @@ img{
     width: 26px;
 }
 
-.list-group-item-action:focus, .list-group-item-action:hover {
-    background-color: #ffc107;
-    
-}
+
 
 .card a{
         color:black;
@@ -107,6 +112,8 @@ img{
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #fff;
     div{
         margin-right: 20px;
         &:last-child{
@@ -124,6 +131,14 @@ img{
         flex: 1 1 auto;
         justify-content: center;
     }
+    &__footer{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        p{
+            font-weight: 600;
+        }
+    }
     .controls{
         font-size: 20px;
         font-weight: 700;
@@ -136,11 +151,10 @@ img{
     .dec{
         color: rgb(63, 63, 63);
     }
+    
 }
 
-.cart-item:last-child{
-    margin-bottom: 0;
-}
+
 
 .cart-btn{
     position: relative;
@@ -157,12 +171,7 @@ img{
     }
 }
 
-.order{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-top: 20px;
-}
+
 
 .mini-cart-item{
     display: grid;
@@ -271,6 +280,47 @@ color: rgb(63, 63, 63);
     max-width: 700px;
 }
 
+.feedback-form {
+    padding-right: 100px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 50%;
+    input,textarea{
+        width: 100%;
+        height: 60px;
+        margin-bottom: 30px;
+        background: #111111;
+        padding: 20px 40px;
+        color: #fff;
+        clip-path: polygon(3% 0, 100% 0, 97% 100%, 0% 100%);
+        color-scheme: dark;
+        &::placeholder{
+            font-size: 16px;
+            line-height: 20px;
+            color: #FFC700;
+        }
+    }
+    textarea{
+        margin-bottom: 70px;
+    }
+    button{
+        padding: 20px 32px;
+        margin-bottom: 35px;
+        font-weight: 800;
+        font-size: 20px;
+        line-height: 100%;
+        text-transform: uppercase;
+        color: #1C1C1C;
+        background: #FFC700;
+        box-shadow: 0px 0px 10px rgba(255, 199, 0, 0.6);
+        &:hover{
+            box-shadow: 0px 0px 20px rgba(255, 200, 0, 0.836);
+        }
+    }
+}
+
+
 .ant-modal-content,
 .ant-modal-header {
     background-color: #2a2a2a;
@@ -302,6 +352,9 @@ color: rgb(63, 63, 63);
     &:focus{
         box-shadow: 0 0 0 2px rgba(255, 248, 24, 0.2);
     }
+    &::placeholder{
+        color: #FFC700;
+    }
 }
 
 .ant-select:not(.ant-select-customize-input) .ant-select-selector{
@@ -316,6 +369,10 @@ color: rgb(63, 63, 63);
         &:focus{
             border-color: #ffd740;
         }
+}
+
+.ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input, .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover{
+    background: #111111;
 }
 
 .ant-select:not(.ant-select-disabled):hover .ant-select-selector{
@@ -368,52 +425,93 @@ color: rgb(63, 63, 63);
     background-color: #111;
     // padding: 20px 60px;
     border: 1px solid #FFC700;
-    margin-right: 30px;
-    &:hover{
+    // margin-right: 30px;
+    &:hover,
+    &:focus,
+    &:active{
         color:#000;
         background-color: #FFC700;
         border: 1px solid #fff;
     }
 }
 
-.feedback-form {
-    padding-right: 100px;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 50%;
-    input,textarea{
-        width: 100%;
-        height: 60px;
-        margin-bottom: 30px;
-        background: #111111;
-        padding: 20px 40px;
-        color: #fff;
-        clip-path: polygon(3% 0, 100% 0, 97% 100%, 0% 100%);
-        color-scheme: dark;
-        &::placeholder{
-            font-size: 16px;
-            line-height: 20px;
-            color: #FFC700;
-        }
-    }
-    textarea{
-        margin-bottom: 70px;
-    }
-    button{
-        padding: 20px 32px;
-        margin-bottom: 35px;
-        font-weight: 800;
-        font-size: 20px;
-        line-height: 100%;
-        text-transform: uppercase;
-        color: #1C1C1C;
-        background: #FFC700;
-        box-shadow: 0px 0px 10px rgba(255, 199, 0, 0.6);
-        &:hover{
-            box-shadow: 0px 0px 20px rgba(255, 200, 0, 0.836);
-        }
+.ant-input-affix-wrapper {
+    background-color: #111;
+    border:1px solid #353535;
+    padding: 0px 11px;
+}
+
+.ant-input-password-icon.anticon {
+    color: rgb(255 199 0.8);
+    border: 1px solid #111;
+    &:hover{
+        color: rgb(255 199 0.4);
     }
 }
+
+.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+    border-color: #FFC700;
+}
+
+.ant-table {
+
+    color: #ffffff;
+
+    background: #242424;
+}
+
+.ant-table-thead > tr > th {
+    color: #FFC700;
+    background: #343434;
+}
+
+.ant-table-tbody > tr.ant-table-row:hover > td, .ant-table-tbody > tr > td.ant-table-cell-row-hover {
+    background: #343434;
+}
+
+.ant-table-footer {
+    color: #FFC700;
+    background: #343434;
+}
+
+.ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link {
+    background-color: #343434;
+    border: 1px solid #FFC700;
+    color: #fff;
+    &:hover{
+        background-color: #292828;
+        border: 1px solid #FFC700;
+        color: #fff;
+    }
+}
+
+.ant-pagination-disabled .ant-pagination-item-link, .ant-pagination-disabled:hover .ant-pagination-item-link {
+    color: rgb(255 255 255 / 50%);
+    cursor: not-allowed;
+}
+
+.ant-pagination-item {
+    background-color: #343434;
+    color: #fff;
+    &:hover{
+        background-color: #292828;
+        border: 1px solid #FFC700;
+    }
+}
+
+.ant-pagination-item-active {
+    font-weight: 600;
+    color:#fff;
+    background: #343434;
+    border-color: #FFC700;
+}
+
+
+
+.ant-checkbox-wrapper {
+    color: rgb(255 255 255 / 85%);
+}
+
+
 
 @import "masons.scss";
