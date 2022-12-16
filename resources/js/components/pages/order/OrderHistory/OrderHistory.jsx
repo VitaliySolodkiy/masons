@@ -15,7 +15,6 @@ const OrderHistory = () => {
     const getOrders = async () => {
         const response = await axios.get(`/api/user-orders/${authUser.email}`);
         setOrders(response.data);
-        console.log(response.data);
 
     }
 

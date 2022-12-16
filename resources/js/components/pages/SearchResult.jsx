@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useSearchParams, Link } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+import { useSearchParams } from 'react-router-dom';
+import ProductCard from './elements/ProductCard';
 
 const SearchResult = () => {
     const [searchParams] = useSearchParams();
@@ -20,31 +19,20 @@ const SearchResult = () => {
 
     const productsMaps = (product) => {
         return (
-            <Card style={{ width: '18rem' }} key={product.id}>
-                <Link to={`/product/${product.id}`}>
-                    <Card.Img variant="top" src={product.image} />
-                    <Card.Body>
-                        <Card.Title>{product.name}</Card.Title>
-                        <Card.Text>
-                            {product.price}$
-                        </Card.Text>
-                        <Button variant="warning">GO</Button>
-                    </Card.Body>
-                </Link>
-            </Card >
+            <div className="category-list-item" key={product.id}>
+                <ProductCard product={product} />
+            </div>
         )
     }
 
     return (
-        <div className='container'>
-            <h2 className='my-3'>Search result for: "{query}"</h2>
-            {products.length === 0
-                ? <p>Nothing found</p>
-                : <div className="product_list">
+        <div className="search-results">
+            <div className="search-results__container _container">
+                <div className="search-results__title"><h3>Search result for: "{query}"</h3></div>
+                <div className="category__list">
                     {products.map(productsMaps)}
                 </div>
-            }
-
+            </div>
         </div>
     );
 }

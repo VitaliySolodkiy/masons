@@ -6,6 +6,8 @@ use App\Mail\OrderShipped;
 use App\Models\Order;
 use App\Models\OrderItems;
 use App\Models\Product;
+use App\Models\ProductColors;
+use App\Models\ProductSizes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -14,7 +16,8 @@ class OrderController extends Controller
 
     public function index()
     {
-        return Order::all();
+        // return Order::all();
+        return Order::with('orderProducts')->get();
     }
 
     function placeOrder(Request $request)
@@ -54,8 +57,18 @@ class OrderController extends Controller
 
     public function orderDetails($id)
     {
-        $orderProducts = Order::with('orderProducts')->where('id', $id)->get();
-        return response()->json($orderProducts[0]);
+        /* $orderProducts = Order::with('orderProducts')->where('id', $id)->first();
+        return response()->json($orderProducts); */
+        $orderWithProducts = Order::with('orderProducts')->where('id', $id)->first();
+
+        foreach ($orderWithProducts->orderProducts as $product) {
+            $available_colors = ProductColors::where('product_id', $product->product_id)->get();
+            $product->available_colors = $available_colors;
+
+            $available_sizes = ProductSizes::where('product_id', $product->product_id)->get();
+            $product->available_sizes = $available_sizes;
+        }
+        return response()->json($orderWithProducts);
     }
 
     public function update(Request $request, $id)
@@ -63,11 +76,19 @@ class OrderController extends Controller
         $request->validate([
             'user_email' => 'required',
             'user_phone' => 'required|numeric',
+            'user_city' => 'required',
+            'payment_method' => 'required',
+            'delivery_method' => 'required',
+
         ]);
 
         $order = Order::findOrFail($id);
         $order->user_email = $request['user_email'];
         $order->user_phone = $request['user_phone'];
+        $order->user_city = $request['user_city'];
+        $order->payment_method = $request['payment_method'];
+        $order->delivery_method = $request['delivery_method'];
+        $order->post_office = $request['post_office'];
         $order->save();
 
         return response()->json([
@@ -87,6 +108,8 @@ class OrderController extends Controller
                 $orderItem->delete();
             } else {
                 $orderItem->product_amount = $item['product_amount'];
+                $orderItem->product_size = $item['product_size'];
+                $orderItem->product_color = $item['product_color'];
                 $orderItem->save();
             }
         };
@@ -107,7 +130,7 @@ class OrderController extends Controller
     public function userOrders($email)
     {
         // dd($email);
-        $userOrders = Order::with('orderProducts')->where('user_email', $email)->get();
+        $userOrders = Order::with('orderProducts')->where('user_email', $email)->orderBy('created_at', 'desc')->get();
         return response()->json($userOrders);
     }
     public function userLastOrderProducts($email)

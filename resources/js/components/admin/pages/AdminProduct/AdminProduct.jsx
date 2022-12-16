@@ -25,8 +25,23 @@ const AdminProduct = () => {
     }
 
     const removeProduct = async (id) => {
-        setProducts(products.filter(p => p.id !== id));
-        const response = await axios.delete('/api/products/' + id);
+        /*         setProducts(products.filter(p => p.id !== id));
+                const response = await axios.delete('/api/products/' + id); */
+
+        Swal.fire({
+            title: `Do you want to delete?`,
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+                axios.delete('/api/products/' + id)
+                    .then(({ data }) => {
+                        setProducts(products.filter(p => p.id !== id));
+                        Swal.fire({ icon: 'success', title: 'Success' })
+                    });
+            }
+        })
     }
 
     const editProduct = async (id, values) => {
@@ -36,10 +51,10 @@ const AdminProduct = () => {
                 "Content-Type": "multipart/form-data"
             }
         });
-        console.log("data in AdminProduct: ", data);
+
         const updatedProducts = _.cloneDeep(products);
         const product = updatedProducts.find(p => p.id === id);
-        console.log("product in AdminProduct: ", product);
+
         /*         product.name = data.data.name;
                 product.description = data.data.description;
                 product.price = data.data.price;
@@ -48,7 +63,7 @@ const AdminProduct = () => {
 
         _.assign(product, data.data)
         setProducts(updatedProducts);
-        console.log("updatedProducts in AdminProduct: ", updatedProducts);
+
     }
 
 

@@ -102,6 +102,10 @@ const FormReview = ({ addReview, handleCancel, editedReview, editReview }) => {
                 rules={[{ required: true }]}
             >
                 <Select
+                    showSearch
+                    filterOption={(input, option) =>
+                        (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                    }
                     style={{
                         width: "100%",
                     }}

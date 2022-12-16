@@ -52,6 +52,24 @@ const EditOrderProducts = ({ orderProducts, setOrderProducts }) => {
         }));
     }
 
+    const setColor = (id, value) => {
+        console.log(id, ' ', value);
+        setEditedProducts(editedProducts.map(product => {
+            if (product.id === id) {
+                return { ...product, 'product_color': value }
+            }
+            return product
+        }));
+    }
+
+    const setSize = (id, value) => {
+        setEditedProducts(editedProducts.map(product => {
+            if (product.id === id) {
+                return { ...product, 'product_size': value }
+            }
+            return product
+        }));
+    }
 
     return (
         <>
@@ -62,6 +80,7 @@ const EditOrderProducts = ({ orderProducts, setOrderProducts }) => {
                 open={isModalOpen}
                 onCancel={handleCancel}
                 footer={null}
+                width={700}
             >
 
                 <div>
@@ -69,13 +88,38 @@ const EditOrderProducts = ({ orderProducts, setOrderProducts }) => {
                         item.product_amount !== 0
                             ?
                             <div key={item.id} className="product-item" >
-                                <div style={{ justifySelf: "flex-start" }}>{item.product_name}</div>
+                                <div className="product-item__name">{item.product_name}</div>
+                                {item.available_sizes.length === 0
+                                    ? ""
+                                    : <div className='product-item__select'>
+                                        <select
+                                            name="size"
+                                            id="size"
+                                            defaultValue={item.product_size}
+                                            onChange={(e) => setSize(item.id, e.target.value)}
+                                        >
+                                            {item.available_sizes && item.available_sizes.map(size => <option value={size.size_name} key={size.size_id}>{size.size_name}</option>)}
+                                        </select>
+                                    </div>
+                                }
+                                {item.available_colors.length === 0
+                                    ? ""
+                                    : <div className='product-item__select'>
+                                        <select
+                                            name="color"
+                                            id="color"
+                                            defaultValue={item.product_color}
+                                            onChange={(e) => setColor(item.id, e.target.value)}
+                                        >
+                                            {item.available_colors && item.available_colors.map(color => <option value={color.color_name} key={color.color_id}>{color.color_name}</option>)}
+                                        </select>
+                                    </div>}
                                 <div className='controls dec' onClick={() => decrementProduct(item.id)}>–</div>
                                 <div>{item.product_amount}</div>
                                 <div className='controls inc' onClick={() => incrementProduct(item.id)}>+</div>
 
                                 <div>{item.product_price * item.product_amount}</div>
-                                <div onClick={() => removeProduct(item.id)}><a > X </a></div>
+                                <div onClick={() => removeProduct(item.id)}><button className='delete-btn delete-btn-modal' > <img src="../../icons/delete.png" alt="" /> </button></div>
                             </div>
                             : ''
                     ))}

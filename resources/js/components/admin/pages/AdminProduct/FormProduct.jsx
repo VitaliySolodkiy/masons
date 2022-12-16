@@ -66,7 +66,7 @@ const FormProduct = ({ handleCancel, addProduct, editedProduct, editProduct }) =
         imgWindow?.document.write(image.outerHTML);
     };
     const initialValues = {}
-    console.log("editedProduct in FormProduct: ", editedProduct)
+
 
     const submitHandler = async (values) => {
         const { data } = await axios.post('/api/products', values, {

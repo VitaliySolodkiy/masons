@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\DeliveryOptionsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentOptionsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SizeController;
@@ -41,6 +43,8 @@ Route::resource('orders', OrderController::class);
 Route::resource('colors', ColorController::class);
 Route::resource('sizes', SizeController::class);
 Route::resource('reviews', ReviewController::class);
+Route::resource('delivery-methods', DeliveryOptionsController::class);
+Route::resource('payment-methods', PaymentOptionsController::class);
 //other
 
 Route::get('/home', [HomeController::class, 'index']);

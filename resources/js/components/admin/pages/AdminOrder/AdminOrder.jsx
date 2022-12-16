@@ -35,9 +35,6 @@ const AdminOrder = () => {
         })
     }
 
-
-
-
     return (
         <div className='container'>
             <h2 className='my-3'>Orders</h2>

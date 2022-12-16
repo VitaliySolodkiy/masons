@@ -1,28 +1,25 @@
 import React from 'react';
-import Modal from 'react-bootstrap/Modal';
 
-import { Button as BtnAntd } from 'antd';
-import { Form, Input } from 'antd';
+
+import { Form, Input, Modal, Button } from 'antd';
 
 const AddModal = ({ showModalAddState, modalAddClose, submitAddHandler }) => {
     return (
-        <Modal show={showModalAddState} onHide={modalAddClose}>
-            <Modal.Header closeButton>
-                <Modal.Title>Add Category</Modal.Title>
-            </Modal.Header>
+        <Modal title="Add Category"
+            open={showModalAddState}
+            onCancel={modalAddClose}
+            footer={null}
+        >
+            <Form name="category" onFinish={submitAddHandler} >
+                <Form.Item label="Category Name" name="name" rules={[{ required: true }, { min: 3 }]}>
+                    <Input />
+                </Form.Item>
 
-            <Modal.Body>
-                <Form name="category" onFinish={submitAddHandler} >
-                    <Form.Item label="Category Name" name="name" rules={[{ required: true }, { min: 3 }]}>
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item >
-                        <BtnAntd htmlType="submit" type="primary" className='me-3'>Save</BtnAntd>
-                        <BtnAntd type="secondary" onClick={modalAddClose}>Cancel</BtnAntd>
-                    </Form.Item>
-                </Form>
-            </Modal.Body>
+                <Form.Item >
+                    <Button htmlType="submit" type="primary" className='me-3'>Save</Button>
+                    <Button type="secondary" onClick={modalAddClose}>Cancel</Button>
+                </Form.Item>
+            </Form>
         </Modal>
     );
 }

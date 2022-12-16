@@ -31,7 +31,7 @@ const getColumns = (removeProduct, setIsEditModalOpen, setEditedProduct) => {
             render: (product) => (
                 <div>
                     <EditOutlined
-                        style={{ fontSize: '25px', color: '#00D678', paddingRight: '10px' }}
+                        style={{ fontSize: '25px', color: 'rgb(255 187 23)', paddingRight: '10px' }}
                         onClick={() => {
                             setIsEditModalOpen(true);
                             setEditedProduct(product);
@@ -39,7 +39,7 @@ const getColumns = (removeProduct, setIsEditModalOpen, setEditedProduct) => {
                     />
 
                     <DeleteOutlined
-                        style={{ fontSize: '25px', color: '#f00' }}
+                        style={{ fontSize: '25px', color: 'rgb(255 106 0)' }}
                         onClick={() => removeProduct(product.id)}
                     />
                 </div>

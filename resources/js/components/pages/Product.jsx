@@ -30,6 +30,7 @@ const Product = () => {
                     size: (data.product.product_sizes.length !== 0 ? data.product.product_sizes[0].size_name : ""),
                     color: (data.product.product_colors.length !== 0 ? data.product.product_colors[0].color_name : ""),
                 });
+                console.log(data)
             });
 
     }

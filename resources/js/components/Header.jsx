@@ -6,7 +6,7 @@ import CartContext from '../contexts/CartContext';
 import FavoritesContext from '../contexts/FavoritesContext';
 import ModalCart from "./pages/cart/ModalCart";
 import { Link } from "react-router-dom";
-import AuthUserContext from '../contexts/AuthUserContext';
+// import AuthUserContext from '../contexts/AuthUserContext';
 import UserMenu from './UserMenu';
 import Search from './Search';
 import Favorites from './pages/favorites/Favorites';
@@ -16,7 +16,7 @@ const Header = (props) => {
     const { cartItems, modalClose, modalShow, showModalState } = useContext(CartContext);
     const { favoriteItems, modalFavoriteClose, modalFavoriteShow, showFavoriteModalState } = useContext(FavoritesContext);
     const [categories, setCategories] = useState([]);
-    const [authUser, setAuthUser] = useContext(AuthUserContext);
+    // const [authUser, setAuthUser] = useContext(AuthUserContext);
 
     useEffect(() => {
         getHeaderData();
@@ -55,12 +55,13 @@ const Header = (props) => {
             <header className="header">
                 <div className="header__container _container">
                     <div className="header-logo">
-                        <div className="header-logo__search">
+                        {/* <div className="header-logo__search">
                             <form action="">
                                 <span className="search-icon"><img src="../icons/search.png" alt="" /></span>
                                 <input type="search" name="q" id="search" placeholder="search" />
                             </form>
-                        </div>
+                        </div> */}
+                        <Search />
                         <div className="header-logo__logo">
                             <Link to="/" className='navbar-brand' ><img src="../images/logo.png" alt="" /></Link>
                         </div>

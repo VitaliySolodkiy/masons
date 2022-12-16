@@ -14,7 +14,8 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $reviews = Review::all();
+        // $reviews = Review::all();
+        $reviews = Review::with('product')->get();
         return response()->json([ //объект response
             'reviews' => $reviews,
         ], 200);

@@ -4,9 +4,14 @@ import { DeleteOutlined } from '@ant-design/icons';
 const getColumns = (removeReview, setIsEditModalOpen, setEditedReview) => {
     const columns = [
         {
-            title: "Name",
+            title: "User name",
             dataIndex: "name",
             key: "name",
+        },
+        {
+            title: "Product",
+            key: "name",
+            render: (review) => review.product?.name
         },
         {
             title: "Content",
@@ -22,9 +27,9 @@ const getColumns = (removeReview, setIsEditModalOpen, setEditedReview) => {
             title: "Action",
             key: "action",
             render: (review) => (
-                <div>
+                <div className='admin-review__action'>
                     <EditOutlined
-                        style={{ fontSize: '25px', color: '#00D678', paddingRight: '10px' }}
+                        style={{ fontSize: '25px', color: 'rgb(255 187 23)', paddingRight: '10px' }}
                         onClick={() => {
                             setIsEditModalOpen(true);
                             setEditedReview(review);
@@ -32,7 +37,7 @@ const getColumns = (removeReview, setIsEditModalOpen, setEditedReview) => {
                     />
 
                     <DeleteOutlined
-                        style={{ fontSize: '25px', color: '#f00' }}
+                        style={{ fontSize: '25px', color: 'rgb(255 106 0)' }}
                         onClick={() => removeReview(review.id)}
                     />
                 </div>

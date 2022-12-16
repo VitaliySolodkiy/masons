@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
+import { Button, Modal, Table } from 'antd';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+
 import EditModal from './Modal/EditModal';
 import AddModal from './Modal/AddModal';
 
@@ -66,11 +69,38 @@ const AdminCategory = () => {
         setModalEditShow(false)
     }
 
+    const columns = [
+        {
+            title: "Name",
+            dataIndex: "name",
+            key: "name",
+        },
+        {
+            title: "Action",
+            key: "action",
+            render: (category) => (
+                <div>
+                    <EditOutlined
+                        style={{ fontSize: '25px', color: 'rgb(255 187 23)', paddingRight: '10px' }}
+                        onClick={() => {
+                            modalEditShow(); setEditedCategory(category)
+                        }}
+                    />
+
+                    <DeleteOutlined
+                        style={{ fontSize: '25px', color: 'rgb(255 106 0)' }}
+                        onClick={() => deleteHandler(category.id)}
+                    />
+                </div>
+            ),
+        },
+    ];
+
     return (
         <div className='container '>
             <h2 className='my-3'>Categories</h2>
-            <Button variant="primary" onClick={modalAddShow}>Add Category</Button>
-            <table className="table">
+            <Button type="primary" className='mb-3' onClick={modalAddShow}>Add Category</Button>
+            {/*             <table className="table">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -96,8 +126,12 @@ const AdminCategory = () => {
                         </tr>
                     })}
                 </tbody>
-            </table>
-
+            </table> */}
+            <Table
+                dataSource={categories}
+                columns={columns}
+                rowKey='id'
+                pagination={{ pageSize: 5 }} />
             <AddModal
                 showModalAddState={showModalAddState}
                 modalAddClose={modalAddClose}
