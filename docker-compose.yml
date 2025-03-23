@@ -1,0 +1,70 @@
+services:
+  php:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+      args:
+        user: vitalii #имя пользователя которое пропишем внутри контейнера php, чтобы юзер снаружи и изнутри совпадал, и не возникало конфликта прав при доступе к файлам созданным через php artisan команду
+        uid: 1000 #группа пользователя
+    container_name: laravel-php
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./src:/var/www
+    networks:
+      - laravel_network
+
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    container_name: laravel-nginx
+    restart: unless-stopped
+    ports:
+      - "127.0.0.2:80:80" #- add local IP (127.0.0.2) in ports section. В hosts файле привязали ip к адресу: "127.0.0.2 laravel-gpt.com"
+    volumes:
+      - ./src:/var/www
+    depends_on:
+      - php
+    networks:
+      - laravel_network
+
+  mysql:
+    image: mysql:8
+    container_name: laravel-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laraveluser
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3316:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - laravel_network
+
+  node:
+    image: node:18
+    container_name: laravel-node
+    working_dir: /var/www
+    ports:
+      - "3000:3000" #standard port
+      - "5173:5173" #vite port. Без него не работает live reloading. Для второго варианта команды, порт по идее можно не указывать.
+    volumes:
+      - ./src:/var/www
+      - ./src/node_modules:/var/www/node_modules
+    # command: sh -c "npm install && npm run dev" #команда используется чтобы сразу запустить dev сервер. Вместе с ней лучше сразу указывать параметр "restart: unless-stopped"
+    # restart: unless-stopped #автоматический перезапуск контейнера при остановке
+    command: sh -c "npm install" #второй вариант без запуска dev сервера. В этом варианте обязатель убрать параметр "restart: unless-stopped"
+    #запуск контейнера во втором варианте выполнять с привязкой к порту 5173: docker-compose run --rm -p 5173:5173 node npm run dev
+    networks:
+      - laravel_network
+
+networks:
+  laravel_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
