@@ -32,9 +32,9 @@ class OrderController extends Controller
         $order->post_office = $request->formValues['post_office'];
         $order->delivery_method = $request->formValues['delivery_method'];
         $order->payment_method = $request->formValues['payment_method'];
-        /*         $order->total_sum = array_reduce($request->cartItems, function ($carry, $item) {
-            return $carry += $item['price'] * $item['amount'];
-        }); */
+        $order->total_sum = array_reduce($request->cartItems, function ($carry, $item) {
+            return $carry += $item['price'] * $item['properties']['amount'];
+        });
         $order->save();
 
         foreach ($request->cartItems as $item) {
@@ -50,7 +50,7 @@ class OrderController extends Controller
         };
 
         //Mail
-        Mail::to('majestis777@gmail.com')->send(new OrderShipped($order));
+//        Mail::to('majestis777@gmail.com')->send(new OrderShipped($order)); //TODO make it work
 
         return response()->json(['order_id' => $order->id]);
     }

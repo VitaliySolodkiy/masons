@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('user_phone', 18);
             $table->string('user_city', 64);
             $table->integer('post_office');
+            $table->string('delivery_method', 64);
+            $table->string('payment_method', 64);
             $table->timestamps();
         });
     }
