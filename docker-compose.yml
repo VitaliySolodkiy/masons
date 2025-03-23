@@ -21,7 +21,7 @@ services:
     container_name: laravel-nginx
     restart: unless-stopped
     ports:
-      - "127.0.0.2:80:80" #- add local IP (127.0.0.2) in ports section. В hosts файле привязали ip к адресу: "127.0.0.2 laravel-gpt.com"
+      - "127.0.0.3:80:80" #- add local IP (127.0.0.2) in ports section. В hosts файле привязали ip к адресу: "127.0.0.2 laravel-gpt.com"
     volumes:
       - ./src:/var/www
     depends_on:
